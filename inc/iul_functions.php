@@ -1,6 +1,6 @@
 <?php
-	function is_user_idle(){
-	    $time_data = get_time_data();
+	function iul_is_user_idle(){
+	    $time_data = iul_get_time_data();
 	 	if($time_data){
 	        if( $time_data['diff'] >= $time_data['timer'] ):
 	            return true;
@@ -9,7 +9,7 @@
 	    return false;
 	}
 
-	function get_time_data($type=""){
+	function iul_get_time_data($type=""){
 	    $return_data = "";
 	    if(is_user_logged_in()):
 	        $user = wp_get_current_user();
@@ -48,7 +48,6 @@
 		$behavior 		=  get_option('iul_behavior');
     	$default_data	=  get_option('iul_data');
     	$user = wp_get_current_user();
-    	die('dead');
     	$roles = $user->roles[0];
     	if( !empty($roles) && isset($behavior[$roles])){
 			switch ($behavior[$roles]['idle_action']){

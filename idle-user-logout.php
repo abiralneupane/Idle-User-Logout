@@ -57,7 +57,7 @@ class IDLE_USER_LOGOUT{
             $iul_disable_admin = isset($iul_data['iul_disable_admin'])?$iul_data['iul_disable_admin']:false;
             
             if( !is_admin() || ( is_admin() && !$iul_disable_admin ) ):
-            	if( is_user_idle() ):
+            	if( iul_is_user_idle() ):
 					//$last_active_time = get_user_meta(get_current_user_id(),'last_active_time',true);
             		iul_execute_behavioural_action();
                     //update_user_meta(get_current_user_id(),'last_active_time',date('H:i:s'));

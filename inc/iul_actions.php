@@ -2,8 +2,9 @@
 
 	class IUL_ACTIONS{
 		private $iul_data, $iul_behavior, $popup_page;
-		function __construct(){
+		public function __construct(){
 			add_action('wp_ajax_logout_idle_user', array($this,'logout_idle_user') );
+			add_action('wp_ajax_update_user_time', array($this,'update_user_time') );
 			add_action('admin_head', array($this,'start_iul_action') );
 			add_action('wp_head', array($this,'start_iul_action') );
 			
@@ -12,7 +13,7 @@
 			$this->iul_data 	=  get_option('iul_data');
 		}
 
-		function start_iul_action(){
+		public function start_iul_action(){
 			global $is_iphone;
 			$is_mobile = false;
 			if(wp_is_mobile() || $is_iphone ){
@@ -82,7 +83,14 @@
 			endif;
 		}
 
-		function logout_idle_user(){
+		public function update_user_time(){
+        	$current_time = date('H:i:s');
+        	update_user_meta(get_current_user_id(),'last_active_time',$current_time);
+        	die();
+    	}
+
+
+		public function logout_idle_user(){
 			if(is_user_logged_in()){
 				do_action( 'uil_before_logout', get_current_user_id() );
 			}
