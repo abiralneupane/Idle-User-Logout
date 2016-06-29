@@ -20,6 +20,17 @@ function main_script(){
 
     if(!disable_admin){
       jQuery(document).idleTimer(timer);
+      
+
+      jQuery(document).bind("active.idleTimer", function(){
+        idle_user_status_call('active');
+      });
+
+      
+      jQuery(document).bind("idle.idleTimer", function(){
+        idle_user_status_call('idle');
+      });
+
       jQuery(document).bind("idle.idleTimer", function(){
           switch(parseInt(action)){
             case 2:
@@ -74,10 +85,19 @@ function idle_user_logout_callback(url,reload){
             window.location = url;
           }
         }
-          
       },  
-
       error: function(MLHttpRequest, textStatus, errorThrown){ console.log(errorThrown); }  
     });
+}
 
+
+function idle_user_status_call(type){
+  jQuery.ajax({  
+    type: 'POST',
+    url: iul.ajaxurl,
+    data: {action: 'update_user_time', callType:type},
+    error: function(MLHttpRequest, textStatus, errorThrown){ console.log(errorThrown); },
+    success: function(response){ console.log(response); }
+  });
+  return null;
 }

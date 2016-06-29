@@ -1,5 +1,5 @@
 === Idle User Logout ===
-Contributors: abiralneupane, meissudeep
+Contributors: abiralneupane, meissudeep, rubalshrestha
 Tags: auto, logout, signout, interval, duration, automatic, auto logout, idle time, idle user
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8XTNYEPT5YBNN
 Requires at least: 3.0

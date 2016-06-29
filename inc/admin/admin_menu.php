@@ -1,8 +1,11 @@
 <?php
 
-class IUL_ADMIN{
+class IUL_ADMIN {
+
 	private $iul_behavior, $iul_data;
+
 	function __construct(){
+
 		add_action( 'admin_menu', array($this,'iul_plugin_menu') );
 		add_action( 'admin_init', array($this,'iul_page_init') );
 		
@@ -11,6 +14,7 @@ class IUL_ADMIN{
 	}
 
 	function iul_plugin_menu() {
+
 		add_submenu_page( 
 	        'options-general.php', 
 	        'Idle User Logout',
@@ -98,9 +102,18 @@ class IUL_ADMIN{
 		); 
 	}
 
-	function iul_validate_behavior_fields($input){ 
+	function iul_validate_behavior_fields($input){
+
 		$new_input = array();
+
+        if(isset($input['clear_setting'])){
+
+            $iul_clear_settings = $input['clear_setting'];
+            unset($input['clear_setting']);
+        }
+
 		foreach( $input as $actions){
+
 			if( (!empty($actions['idle_action']) && !empty($actions['idle_page']) ) || ( $actions['idle_action'] == 1 || $actions['idle_action'] == 2 ) ){
 				if(!empty($actions['user_role'])){
 					if( ($actions['idle_timer'] != 0) && ($actions['idle_timer'] < 10) ){
@@ -113,15 +126,16 @@ class IUL_ADMIN{
 						'idle_page' => $actions['idle_page'],
 						'idle_timer' => $actions['idle_timer']
 					);
-				}	
+				}
 			}
 		}
 
-		if(isset($input['clear_setting'])){
-			foreach($input['clear_setting'] as $index){
-				unset($new_input[$index]);
-			}
-		}
+        if(!empty($iul_clear_settings)){
+
+            foreach($iul_clear_settings as $index){
+                unset($new_input[$index]);
+            }
+        }
 
 		return $new_input;
 	}
@@ -131,16 +145,19 @@ class IUL_ADMIN{
 	function print_section_info($args){ echo '<hr />'; }
 
 	function iul_logout_duration(){
+
 	    $value = isset( $this->iul_data['iul_idleTimeDuration'] ) ? esc_attr( $this->iul_data['iul_idleTimeDuration']) : '';
 	    echo '<input type="text" id="iul_idleTimeDuration" name="iul_data[iul_idleTimeDuration]" value="'.$value.'" maxlength="8" size="5" /> seconds';
 	}
 
 	function iul_disable_admin(){
+
 	    $value = isset( $this->iul_data['iul_disable_admin'] ) ? esc_attr( $this->iul_data['iul_disable_admin']) : '';
 	    echo '<input type="checkbox" id="iul_disable_admin" name="iul_data[iul_disable_admin]" '.(($value)?"checked":"").' />';
 	}
 
 	private function get_set_roles(){
+
 		if($this->iul_behavior):
 			foreach ($this->iul_behavior as $role => $iul_behavior):
 				$roles[] = $role;
@@ -152,6 +169,7 @@ class IUL_ADMIN{
 	}
 
 	private function append_current_role($roles,$current_role){
+
 		$roles_opt = $used_roles = array();
 		$temp_roles = get_editable_roles();
 
